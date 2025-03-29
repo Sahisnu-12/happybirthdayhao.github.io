@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Em có đồng ý kết hôn với anh không?</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+      font-family: 'Arial', sans-serif;
+      position: relative;
+      text-align: center;
+      padding: 20px;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 2em;
+      color: #fff;
+      text-shadow: 2px 2px 4px #000;
+      margin-bottom: 40px;
+    }
+    .button-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      width: 100%;
+      max-width: 200px;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    #co {
+      background: #28a745;
+      color: #fff;
+    }
+    #khong {
+      background: #dc3545;
+      color: #fff;
+      position: relative;
+    }
+    .letter-container {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: #fff;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: left;
+      overflow-y: auto;
+      max-height: 80vh;
+      transition: transform 0.5s ease;
+    }
+    .letter-container p {
+      font-size: 1.2em;
+      color: #333;
+    }
+    /* Confetti Styles */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: linear-gradient(45deg, #00aaff, #00ff88); /* Blue and green gradient */
+      opacity: 0.6; /* Reduced opacity for a more subtle effect */
+      animation: fall 4s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0.8;
+      }
+      50% {
+        opacity: 0.6;
+        transform: translateY(50vh) rotate(180deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+    /* Cross Icon Styles */
+    .close-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      background-color: #dc3545;
+      color: #fff;
+      font-size: 1.5em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .close-icon:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Em có đồng ý kết hôn với anh không?</h1>
+  <div class="button-container">
+    <button id="co">Có</button>
+    <button id="khong">Không</button>
+  </div>
+  <div id="letter" class="letter-container">
+    <div class="close-icon" id="closeIcon">&times;</div>
+    <p>Gửi vợ yêu của anh, Hảo ❤️,</p>
+    <p>Ngay từ khoảnh khắc đầu tiên anh gặp em, anh đã biết rằng em là người con gái anh muốn đi cùng suốt cuộc đời này. Em là ánh sáng của anh, là niềm hạnh phúc lớn nhất của anh. Không gì có thể làm anh hạnh phúc hơn ngoài việc được cùng em xây dựng một gia đình đầy yêu thương. Anh hứa sẽ yêu em, trân trọng em và làm mọi điều để thấy nụ cười của em mỗi ngày. Vậy em có đồng ý trở thành vợ của anh không? ❤️</p>
+    <p>Mãi yêu em,</p>
+    <p><strong>Sahisnu</strong></p>
+  </div>
+  <script>
+    const coButton = document.getElementById('co');
+    const khongButton = document.getElementById('khong');
+    const container = document.querySelector('.button-container');
+    const letter = document.getElementById('letter');
+    const closeIcon = document.getElementById('closeIcon');
+    let letterOpened = false;
+    let confettiInterval;
+    
+    khongButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (container.firstElementChild === coButton) {
+        container.insertBefore(khongButton, coButton);
+      } else {
+        container.insertBefore(coButton, khongButton);
+      }
+    });
+    
+    coButton.addEventListener('click', () => {
+      letter.style.display = 'block';
+      setTimeout(() => {
+        letter.style.transform = 'translate(-50%, -50%) scale(1)';
+        letterOpened = true;
+      }, 50);
+      
+      // Start confetti animation
+      confettiInterval = setInterval(() => {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        document.body.appendChild(confetti);
+        
+        // Randomize starting position of confetti
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.animationDuration = Math.random() * 2 + 3 + 's'; // Random fall speed
+        
+        // Remove confetti after it has fallen
+        setTimeout(() => confetti.remove(), 4000);
+      }, 100);
+    });
+
+    closeIcon.addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    document.body.addEventListener('click', (event) => {
+      if (letterOpened && !letter.contains(event.target) && event.target !== closeIcon) {
+        clearInterval(confettiInterval);
+        window.location.href = 'index.html';
+      }
+    });
+  </script>
+</body>
+</html>

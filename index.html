@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chúc mừng sinh nhật vợ yêu</title>
+  <style>
+    /* Reset & Basic Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* Speaker Icon (Music Toggle) */
+    .speaker {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 8vw;
+      height: 8vw;
+      background: url('https://img.icons8.com/ios-filled/50/000000/speaker.png') no-repeat center center;
+      background-size: contain;
+      cursor: pointer;
+      z-index: 1000;
+      transition: transform 0.3s ease;
+    }
+    .speaker.muted { filter: grayscale(100%); opacity: 0.5; transform: scale(1.1); }
+
+    /* Greeting Message */
+    .greeting {
+      text-align: center;
+      margin-top: 60px;
+      font-size: 2.5em;
+      color: #fff;
+      text-shadow: 2px 2px 4px #000;
+      font-family: 'Cursive', sans-serif;
+    }
+
+    /* Floating Balloons */
+    .balloon {
+      position: absolute;
+      bottom: -100px;
+      width: 40px;
+      height: 50px;
+      background-color: red;
+      border-radius: 50%;
+      opacity: 0.9;
+      animation: fly 7s linear infinite;
+      z-index: 300;
+    }
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 50px;
+      background: #ccc;
+    }
+    @keyframes fly {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(100px, -800px); }
+    }
+
+    /* Falling Confetti */
+    .confetti {
+      position: absolute;
+      top: 0;
+      width: 10px;
+      height: 10px;
+      opacity: 0.8;
+      animation: fall 3s infinite;
+      z-index: 200;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-100px) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+
+    /* Photo Slider */
+    .slider {
+      position: relative;
+      overflow: hidden;
+      margin: 40px auto;
+      max-width: 600px;
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.3s ease-in-out;
+    }
+    .slide { min-width: 100%; }
+    .slide img { width: 90%; display: block; margin: 0 auto; }
+    .slider button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+
+    /* Cake Cutting Section */
+    .cake-container {
+      position: relative;
+      margin: 60px auto;
+      width: 300px;
+      text-align: center;
+    }
+    .cake {
+      width: 100%;
+      height: auto;
+      background: url('assets/cake.png') no-repeat center center;
+      background-size: contain;
+      cursor: pointer;
+    }
+    .plate {
+      position: absolute;
+      left: 50%;
+      top: calc(100% + 20px);
+      transform: translateX(-50%);
+      width: 300px;
+      height: 40px;
+      background: #fff;
+      border: 2px solid #ccc;
+      border-radius: 50%;
+      display: none;
+      z-index: 600;
+    }
+    .knife {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 60px;
+      background: url('assets/knife.png') no-repeat center center;
+      background-size: contain;
+      cursor: grab;
+      display: none;
+      z-index: 700;
+    }
+    .cake-slice {
+      position: absolute;
+      width: 80px;
+      height: auto;
+      transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+      display: none;
+      z-index: 500;
+    }
+
+    /* Gift Box Section */
+    .gift-box {
+      position: relative;
+      width: 200px;
+      margin: 40px auto;
+      cursor: pointer;
+    }
+    .gift-box img { width: 100%; display: block; }
+    .gift-open {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 1.2em;
+      color: #fff;
+    }
+
+    /* Quest: Red Heart Icon for Proposal */
+    .heart-quest {
+      position: fixed;
+      right: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 8vw; /* responsive size */
+      cursor: pointer;
+      z-index: 1000;
+      transition: transform 0.3s ease;
+      animation: beat 1.5s infinite;
+      color: red;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+    }
+    .heart-quest:hover {
+      transform: translateY(-50%) scale(1.2);
+    }
+    .heart-quest:before {
+      content: '?';
+      font-size: 1.4em;
+      position: absolute;
+      top: -20px;
+      right: -25px;
+      color: white;
+      animation: bounce 1s infinite;
+    }
+    @keyframes beat {
+      0% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-50%) scale(1.1); }
+      100% { transform: translateY(-50%) scale(1); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+   
+    /* Video Section */
+    .video-section {
+      margin-top: 40px;
+      text-align: center;
+    }
+    .video-section iframe {
+      max-width: 80%;
+      height: 350px;
+    }
+
+    /* Responsive Styling */
+    @media (max-width: 600px) {
+      .greeting { font-size: 2em; }
+      .slider button { padding: 5px; }
+      .video-section iframe { height: 200px; }
+      .cake-container { width: 250px; }
+      .plate { width: 250px; }
+      .speaker { width: 10vw; height: 10vw; }
+      .heart-quest { font-size: 10vw; }
+      
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="assets/audio/happy-birthday-254480.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Speaker Icon for Music Toggle -->
+  <div class="speaker" id="speaker"></div>
+
+  <!-- Floating Balloons -->
+  <div class="balloon" style="left: 10%; animation-delay: 0s;"></div>
+  <div class="balloon" style="left: 30%; animation-delay: 1s; background-color: pink;"></div>
+  <div class="balloon" style="left: 50%; animation-delay: 2s; background-color: yellow;"></div>
+  <div class="balloon" style="left: 70%; animation-delay: 3s; background-color: lightblue;"></div>
+  <div class="balloon" style="left: 90%; animation-delay: 4s; background-color: lightgreen;"></div>
+
+  <!-- Falling Confetti -->
+  <div class="confetti" style="left: 20%; animation-delay: 0s; background-color: #ff0;"></div>
+  <div class="confetti" style="left: 40%; animation-delay: 0.5s; background-color: #f0f;"></div>
+  <div class="confetti" style="left: 60%; animation-delay: 1s; background-color: #0ff;"></div>
+  <div class="confetti" style="left: 80%; animation-delay: 1.5s; background-color: #ff0;"></div>
+
+  <div class="container">
+    <!-- Greeting Message -->
+    <div class="greeting">Chúc mừng sinh nhật vợ yêu!</div>
+
+    <!-- Photo Slider Section -->
+    <div class="slider">
+      <div class="slides" id="slides">
+        <div class="slide"><img src="assets/photos/WhatsApp Image 2025-01-27 at 00.45.54_37429f9f.jpg" alt="Photo 1"></div>
+        <div class="slide"><img src="assets/photos/Firefly 20241205213336.png" alt="Photo 2"></div>
+        <div class="slide"><img src="assets/photos/ussss.jpg" alt="Photo 3"></div>
+        <div class="slide"><img src="assets/photos/us sano.png" alt="Photo 4"></div>
+      </div>
+      <button class="prev" id="prev">&#10094;</button>
+      <button class="next" id="next">&#10095;</button>
+    </div>
+
+    <!-- Video Section -->
+    <div class="video-section">
+      <iframe src="assets/vedios/no 1.mp4" title="Video" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    <!-- Cake Cutting Section -->
+    <div class="cake-container">
+      <div class="cake" id="cake"></div>
+      <div class="plate" id="plate"></div>
+      <div class="knife" id="knife"></div>
+    </div>
+
+    <!-- Quest: Red Heart Icon for Proposal -->
+    <div class="heart-quest" id="heart-quest">&#10084;</div>
+    
+    <!-- Game Icon Section -->
+  
+  </div>
+
+  <script>
+    // Toggle Background Music
+    const speaker = document.getElementById('speaker');
+    const bgMusic = document.getElementById('bgMusic');
+    speaker.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        speaker.classList.remove('muted');
+      } else {
+        bgMusic.pause();
+        speaker.classList.add('muted');
+      }
+    });
+
+    // Cake Cutting Animation
+    const cake = document.getElementById('cake');
+    const knife = document.getElementById('knife');
+    const plate = document.getElementById('plate');
+    const cakeSlice = document.createElement('img');
+    cakeSlice.src = 'assets/cake_slice.png'; // Adjust to actual slice image path
+    cakeSlice.classList.add('cake-slice');
+
+    cake.addEventListener('click', () => {
+      plate.style.display = 'block';
+      knife.style.display = 'block';
+    });
+
+    knife.addEventListener('click', () => {
+      cakeSlice.style.display = 'block';
+      cakeSlice.style.transform = 'rotate(180deg)';
+      cake.appendChild(cakeSlice);
+    });
+
+    // Heart Icon Click Event (Proposal)
+    const heartQuest = document.getElementById('heart-quest');
+    heartQuest.addEventListener('click', () => {
+      window.location.href = 'proposal.html';  // Redirect to proposal.html
+    });
+
+    
+
+    // Photo Slider
+    let currentSlide = 0;
+    const slides = document.getElementById('slides');
+    const slideCount = document.querySelectorAll('.slide').length;
+
+    const showSlide = () => {
+      slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+    };
+
+    document.getElementById('next').addEventListener('click', () => {
+      currentSlide = (currentSlide + 1) % slideCount;
+      showSlide();
+    });
+
+    document.getElementById('prev').addEventListener('click', () => {
+      currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+      showSlide();
+    });
+
+    // Automatic Slide Show
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % slideCount;
+      showSlide();
+    }, 2500); // 2.5 seconds per slide for quicker transition
+  </script>
+</body>
+</html>
